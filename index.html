@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name | VFX Artist</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #181818;
+      color: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+    .header-spacer {
+      height: 112px;
+      transition: height 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    .header-spacer.shrunk {
+      height: 44px;
+    }
+    header {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      z-index: 100;
+      background: rgba(17,17,17,0.97);
+      padding: 2rem 0 1rem 0;
+      text-align: center;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      /* Removed backdrop-filter for performance */
+      transition:
+        padding 0.35s cubic-bezier(.4,0,.2,1),
+        box-shadow 0.35s cubic-bezier(.4,0,.2,1),
+        background 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    header.shrunk {
+      padding: 0.5rem 0 0.25rem 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      background: rgba(17,17,17,0.99);
+    }
+    .site-title {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      transition:
+        font-size 0.35s cubic-bezier(.4,0,.2,1),
+        opacity 0.35s cubic-bezier(.4,0,.2,1),
+        height 0.35s cubic-bezier(.4,0,.2,1);
+      opacity: 1;
+      display: block;
+      height: auto;
+    }
+    header.shrunk .site-title {
+      opacity: 0;
+      height: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    nav {
+      margin-top: 1rem;
+      transition: margin-top 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    header.shrunk nav {
+      margin-top: 0.2rem;
+    }
+    nav a {
+      position: relative;
+      color: #61dafb;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: bold;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+    nav a::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 4px;
+      background: #61dafb;
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(.4,0,.2,1), left 0.3s cubic-bezier(.4,0,.2,1);
+      transform: translateX(-50%);
+    }
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .section-card {
+      width: 100vw;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 4rem 0;
+      isolation: isolate;
+    }
+    .section-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      width: 90%;
+      background: rgba(30,30,30,0.75); /* more opaque for readability */
+      border-radius: 18px;
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+      padding: 2.5rem 2rem;
+      /* Removed backdrop-filter for performance */
+      border: 1.5px solid rgba(255,255,255,0.10);
+    }
+    .section-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-size: cover;
+      background-position: center center;
+      filter: grayscale(1) brightness(0.7);
+      transition: background-position 0.2s;
+    }
+    .section-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(120deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%);
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      opacity: 0.7;
+      /* Removed backdrop-filter for performance */
+    }
+    #about.section-card::before {
+      background-image: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80');
+    }
+    #reel.section-card::before {
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
+    }
+    h2 {
+      color: #fff;
+      margin-top: 0;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    /* --- Sticky Footer --- */
+    .sticky-footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 54px;
+      background: linear-gradient(120deg, #232526 0%, #414345 100%);
+      color: #f4f4f4;
+      font-size: 0.95rem;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5vw;
+      box-sizing: border-box;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.18);
+      overflow: visible;
+    }
+    .sticky-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      opacity: 0.7;
+      /* Removed backdrop-filter for performance */
+    }
+    .footer-email,
+    .footer-resume {
+      position: relative;
+      z-index: 1;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+    .footer-email a {
+      color: #61dafb;
+      text-decoration: underline;
+      word-break: break-all;
+      font-weight: 500;
+      font-size: 0.98em;
+      padding: 0.2em 0;
+    }
+    .footer-resume {
+      justify-content: flex-end;
+    }
+    .resume-link {
+      display: inline-block;
+      padding: 0.55rem 1.05rem;
+      background: #61dafb;
+      color: #222;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      font-size: 0.98em;
+      margin-left: 0.5em;
+    }
+    .resume-link:hover {
+      background: #21a1f3;
+    }
+    /* --- YouTube Embed Full Width --- */
+    #reel .section-content {
+      background: none;
+      box-shadow: none;
+      border: none;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100vw;
+    }
+    .youtube-embed {
+      width: 92vw;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.37);
+      background: #000;
+      position: relative;
+      z-index: 2;
+    }
+    .youtube-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #000;
+      border-radius: 0;
+      min-height: 240px;
+    }
+    @media (max-width: 800px) {
+      .section-content {
+        padding: 1.5rem 0.5rem;
+      }
+      .youtube-embed {
+        width: 98vw;
+        min-height: 180px;
+      }
+      .sticky-footer {
+        font-size: 0.9rem;
+        padding: 0 1vw;
+      }
+    }
+    @media (max-width: 600px) {
+      header .site-title {
+        font-size: 1.2rem;
+      }
+      .section-content {
+        padding: 1rem 0.25rem;
+      }
+      .sticky-footer {
+        flex-direction: column;
+        height: auto;
+        padding: 0.5em 0.5em;
+        align-items: stretch;
+        gap: 0.3em;
+      }
+      .footer-email,
+      .footer-resume {
+        justify-content: center;
+        width: 100%;
+        margin: 0.1em 0;
+      }
+      .resume-link {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-spacer" id="header-spacer"></div>
+  <header id="main-header">
+    <span class="site-title">Your Name</span>
+    <nav>
+      <a href="#about">About Me</a>
+      <a href="#reel">VFX Reel</a>
+      <a href="#footer-email">Resume</a>
+      <a href="#footer-email">Contact</a>
+    </nav>
+  </header>
+
+  <section id="about" class="section-card">
+    <div class="section-content">
+      <h2>About Me</h2>
+      <p>
+        Hi! I'm Your Name, a passionate VFX artist specializing in compositing, 3D animation, and motion graphics. 
+        I love bringing stories to life with stunning visuals and creative effects. With experience in both film and games, 
+        I aim to push the boundaries of digital storytelling.
+      </p>
+    </div>
+  </section>
+
+  <section id="reel" class="section-card">
+    <div class="section-content">
+      <div class="youtube-embed">
+        <!-- Replace the src URL with your own YouTube video link -->
+        <iframe src="https://www.youtube.com/embed/IgXpy4fKutY" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sticky-footer" id="footer">
+    <div class="footer-email" id="footer-email">
+      Email: <a href="mailto:your.email@example.com">your.email@example.com</a>
+    </div>
+    <div class="footer-resume">
+      <a class="resume-link" href="resume.pdf" target="_blank" rel="noopener noreferrer">Download Resume (PDF)</a>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth, robust header shrink using requestAnimationFrame and matching spacer
+    const header = document.getElementById('main-header');
+    const spacer = document.getElementById('header-spacer');
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    let isShrunk = false;
+    const threshold = 40;
+
+    function onScroll() {
+      lastScrollY = window.scrollY;
+      requestTick();
+    }
+
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    function update() {
+      if (lastScrollY > threshold && !isShrunk) {
+        header.classList.add('shrunk');
+        spacer.classList.add('shrunk');
+        isShrunk = true;
+      } else if (lastScrollY <= threshold && isShrunk) {
+        header.classList.remove('shrunk');
+        spacer.classList.remove('shrunk');
+        isShrunk = false;
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll);
+  </script>
+</body>
+</html>
