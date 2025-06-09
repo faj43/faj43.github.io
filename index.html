@@ -14,10 +14,10 @@
       font-family: 'Roboto', sans-serif;
       min-height: 100vh;
       scroll-behavior: smooth;
-      overflow-x: hidden; /* Prevent horizontal scroll as a fallback */ /* [2][4][6] */
+      overflow-x: hidden;
     }
     body {
-      padding-top: 72px; /* header height + spacing */
+      padding-top: 72px;
     }
     header {
       position: fixed;
@@ -125,45 +125,98 @@
       z-index: 0;
       background-size: cover;
       background-position: center center;
-      filter: grayscale(1) brightness(0.7);
+      filter: grayscale(1) brightness(0.2);
       transition: background-position 0.2s;
     }
     #reel.section-card::before {
       background-image: url('background.png');
     }
-    .youtube-embed {
+
+    /* Carousel styles */
+    .carousel {
+      position: relative;
       width: 84vw;
       max-width: 1200px;
-      aspect-ratio: 16 / 9;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.30);
-      background: #000;
-      position: relative;
       z-index: 2;
     }
-    .youtube-embed iframe {
+    .carousel-track {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      transition: opacity 0.4s;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      position: relative;
+    }
+    .carousel-slide iframe,
+    .carousel-slide video,
+    .carousel-slide img {
       width: 100%;
       height: 100%;
       border: none;
-      display: block;
+      border-radius: 16px;
+      object-fit: contain;
       background: #000;
-      border-radius: 0;
       min-height: 240px;
+      display: block;
     }
+    .carousel-btn {
+      background: rgba(24,24,24,0.8);
+      border: none;
+      color: #61dafb;
+      font-size: 2.2rem;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: background 0.2s;
+      outline: none;
+      user-select: none;
+    }
+    .carousel-btn:hover,
+    .carousel-btn:focus {
+      background: #23272e;
+      color: #fff;
+    }
+    .carousel-btn.prev { left: -58px; }
+    .carousel-btn.next { right: -58px; }
+
     @media (max-width: 800px) {
       .about-card {
         padding: 1rem 0.7rem;
         font-size: 1rem;
       }
-      .youtube-embed {
-        width: 99vw;
-        min-height: 180px;
-      }
+      .carousel { width: 99vw; }
+      .carousel-btn.prev { left: 2px; }
+      .carousel-btn.next { right: 2px; }
     }
     @media (max-width: 600px) {
       header {
@@ -181,8 +234,11 @@
         font-size: 0.97rem;
         margin: 1.2rem auto 1.5rem auto;
       }
-      .youtube-embed {
+      .carousel-slide iframe,
+      .carousel-slide video,
+      .carousel-slide img {
         border-radius: 7px;
+        min-height: 140px;
       }
     }
   </style>
@@ -192,21 +248,101 @@
     <div class="site-title">Joseph Wilson</div>
     <div class="header-links">
       <a href="mailto:joseph@vfxjw.com" class="header-link">joseph@vfxjw.com</a>
-      <a href="resume.pdf" class="header-link resume" target="_blank" rel="noopener noreferrer">Download Resume</a>
+      <a href="Resume_VFXGaming_JWilson06082025.pdf" class="header-link resume" target="_blank" rel="noopener noreferrer">Download Resume</a>
     </div>
   </header>
 
   <main>
     <div class="about-card">
-      Real-time VFX Artist. I work with UE5, Maya, Photoshop, Houdini. Most proficient with Unreal real-time VFX, materials, and animation. Actively seeking employment for PC, console, mobile games.
+      Real-time VFX Artist. I work with UE5, Maya, Photoshop, Houdini, and more. Most proficient with Unreal real-time VFX, materials, and animation. Actively seeking employment for PC, console, mobile games.
     </div>
 
     <section id="reel" class="section-card">
-      <div class="youtube-embed">
-        <!-- Replace the src URL with your own YouTube video link -->
-        <iframe src="https://www.youtube.com/embed/IgXpy4fKutY" allowfullscreen></iframe>
+      <div class="carousel" id="media-carousel">
+        <button class="carousel-btn prev" aria-label="Previous">&#10094;</button>
+        <div class="carousel-track">
+          <!-- Slide 1: YouTube Embed -->
+          <div class="carousel-slide active">
+            <iframe src="https://www.youtube.com/embed/IgXpy4fKutY" allowfullscreen></iframe>
+          </div>
+          <div class="carousel-slide">
+            <video controls muted poster="thumb1.jpg">
+              <source src="assets/illidan_VFX_JWilson_v02.mp4" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          </div>
+          <div class="carousel-slide">
+            <img src="assets/vfx_midterm_JWilson_clouddragon.png" alt="VFX GIF" />
+          </div>
+          <div class="carousel-slide">
+            <video controls muted poster="thumb1.jpg">
+              <source src="assets/UE5PROTFOLIO2025_BP_CircleSpawnDemo01.mp4" type="video/mp4" />
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          </div>
+          <!-- Add more slides as needed -->
+        </div>
+        <button class="carousel-btn next" aria-label="Next">&#10095;</button>
       </div>
     </section>
   </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelectorAll('#media-carousel .carousel-slide');
+      const prevBtn = document.querySelector('#media-carousel .carousel-btn.prev');
+      const nextBtn = document.querySelector('#media-carousel .carousel-btn.next');
+      let current = 0;
+
+      function showSlide(idx) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === idx);
+          const video = slide.querySelector('video');
+          if (video) {
+            if (i === idx) {
+              // Try to play the video when this slide is active
+              video.play().catch(() => {
+                // Autoplay might be blocked by browser policy if not muted
+              });
+            } else {
+              video.pause();
+              video.currentTime = 0; // Optionally reset to start
+            }
+          }
+          // Optionally pause YouTube iframe (advanced)
+        });
+      }
+
+
+      function prevSlide() {
+        current = (current - 1 + slides.length) % slides.length;
+        showSlide(current);
+      }
+
+      function nextSlide() {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }
+
+      prevBtn.addEventListener('click', prevSlide);
+      nextBtn.addEventListener('click', nextSlide);
+
+      // Optional: swipe support for mobile
+      let startX = null;
+      const track = document.querySelector('#media-carousel .carousel-track');
+      track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      });
+      track.addEventListener('touchend', (e) => {
+        if (startX === null) return;
+        let endX = e.changedTouches[0].clientX;
+        if (endX - startX > 50) prevSlide();
+        else if (startX - endX > 50) nextSlide();
+        startX = null;
+      });
+
+      // Show the first slide
+      showSlide(current);
+    });
+  </script>
 </body>
 </html>
