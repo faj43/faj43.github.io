@@ -294,28 +294,32 @@
               <div style="margin-top: 0.5em; font-size: 1.12em; color: #61dafb;">VFX Design · Texturing · Materials · Niagara Systems · Blueprint Logic</div>
             </div>
           </div>
-          <div class="carousel-slide">
-            <video controls muted poster="thumb1.jpg">
-              <source src="https://github.com/faj43/faj43.github.io/raw/refs/heads/main/assets/illidan_VFX_JWilson_v02.mp4" type="video/mp4" />
-              Sorry, your browser doesn't support embedded videos.
-            </video>
-            <div class="carousel-caption">
-              <div style="color: #BBBBBB; font-size: 1.12em">
-                This is a Houdini smoke simulation I made at NYFA, driven by a character’s animation and collision interactions. I used custom velocity fields, forces, and collider geometry to give the smoke a natural, responsive motion. The final sim was rendered and composited in Nuke to blend into an environment for a cinematic finish.
-              <div style="margin-top: 1em"></div>
-              <div style="margin-top: 0.5em; font-size: 1.12em; color: #61dafb;">Smoke Simulation · Rendering · Compositing </div>
-            </div>
-          </div>
-          </div>
-          <div class="carousel-slide">
-            <img src="https://github.com/faj43/faj43.github.io/raw/refs/heads/main/assets/vfx_midterm_JWilson_clouddragon_watermark.jpg" alt="VFX GIF" />
-            <div class="carousel-caption">
-              <div style="color: #BBBBBB; font-size: 1.12em">
-                Here is a still render of a mesh surface rasterized into a fog VDB, which I then composited over a particle simulation with randomized attributes—creating a visually stunning shot.
-              <div style="margin-top: 1em"></div>
-              <div style="margin-top: 0.5em; font-size: 1.12em; color: #61dafb;">Volume Modeling · Particle Simulation · Rendering · Compositing </div>
-          </div>
-        </div>
+<!-- Smoke Sim Slide -->
+<div class="carousel-slide">
+  <video controls muted poster="thumb1.jpg">
+    <source src="https://github.com/faj43/faj43.github.io/raw/refs/heads/main/assets/illidan_VFX_JWilson_v02.mp4" type="video/mp4">
+    Sorry, your browser doesn't support embedded videos.
+  </video>
+  <div class="carousel-caption">
+    <div style="color: #BBBBBB; font-size: 1.12em">
+      This is a Houdini smoke simulation I made at NYFA, driven by a character’s animation and collision interactions. I used custom velocity fields, forces, and collider geometry to give the smoke a natural, responsive motion. The final sim was rendered and composited in Nuke to blend into an environment for a cinematic finish.
+    </div> <!-- ✅ Missing closing tag -->
+    <div style="margin-top: 1em"></div>
+    <div style="margin-top: 0.5em; font-size: 1.12em; color: #61dafb;">Smoke Simulation · Rendering · Compositing</div>
+  </div> <!-- ✅ Closing .carousel-caption -->
+</div>
+
+<!-- Fog VDB Slide -->
+<div class="carousel-slide active">
+  <img src="https://github.com/faj43/faj43.github.io/raw/refs/heads/main/assets/vfx_midterm_JWilson_clouddragon_watermark.jpg" alt="VFX GIF">
+  <div class="carousel-caption">
+    <div style="color: #BBBBBB; font-size: 1.12em">
+      Here is a still render of a mesh surface rasterized into a fog VDB, which I then composited over a particle simulation with randomized attributes—creating a visually stunning shot.
+    </div> <!-- ✅ Missing closing tag -->
+    <div style="margin-top: 1em"></div>
+    <div style="margin-top: 0.5em; font-size: 1.12em; color: #61dafb;">Volume Modeling · Particle Simulation · Rendering · Compositing</div>
+  </div> <!-- ✅ Closing .carousel-caption -->
+</div>
           <!-- Add more slides as needed -->
         </div>
         <button class="carousel-btn next" aria-label="Next">&#10095;</button>
